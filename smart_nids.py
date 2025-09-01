@@ -11,10 +11,10 @@ import os
 from scapy.all import sniff, rdpcap
 
 def get_packets():
-    if os.environ.get("STREAMLIT_RUNTIME", ""):  # running on Streamlit Cloud
-        return rdpcap("sample.pcap")   # use pre-captured packets
+    if os.path.exists("sample.pcap"):
+        return rdpcap("sample.pcap")  # Cloud: read pre-captured packets
     else:
-        return sniff(count=10)         # use live sniffing locally
+        return sniff(count=10)        # Local: capture live packets         # use live sniffing locally
 
 
 
