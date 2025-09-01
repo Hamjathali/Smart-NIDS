@@ -10,13 +10,24 @@ import os
 import os
 from scapy.all import sniff, rdpcap
 
+# def get_packets():
+#     if os.path.exists("sample.pcap"):
+#         return rdpcap("sample.pcap")  # Cloud: read pre-captured packets
+#     else:
+#         return sniff(count=10)        # Local: capture live packets         # use live sniffing locally
+
 def get_packets():
-    if os.path.exists("sample.pcap"):
-        return rdpcap("sample.pcap")  # Cloud: read pre-captured packets
-    else:
-        return sniff(count=10)        # Local: capture live packets         # use live sniffing locally
-
-
+    try:
+        # Try live sniffing (works in local with admin/root)
+        return sniff(count=20)
+    except Exception as e:
+        # If sniff fails (Streamlit Cloud or no permission) → fallback
+        
+        if os.path.exists("sample.pcap"):
+            return rdpcap("sample.pcap")
+        else:
+            
+            return []
 
 # Load pre-trained model
 model = load_model("conv1d_model.h5")
