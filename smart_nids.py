@@ -10,11 +10,7 @@ import os
 import os
 from scapy.all import sniff, rdpcap
 
-# def get_packets():
-#     if os.path.exists("sample.pcap"):
-#         return rdpcap("sample.pcap")  # Cloud: read pre-captured packets
-#     else:
-#         return sniff(count=10)        # Local: capture live packets         # use live sniffing locally
+
 
 def get_packets():
     try:
@@ -88,10 +84,10 @@ def predict_packet(packet):
 # Main streamlit interface
 def main():
     st.title("🔐 Smart Network Intrusion Detection System")
-    mode = st.radio("Choose input method", ["Live Sniff (10 packets)", "Upload .pcap File"])
+    mode = st.radio("Choose input method", ["Live Sniff (20 packets)", "Upload .pcap File"])
 
     packets = []
-    if mode == "Live Sniff (10 packets)":
+    if mode == "Live Sniff (20 packets)":
         if st.button("Start Sniffing"):
             with st.spinner("Sniffing..."):
                 packets = get_packets()
@@ -130,6 +126,21 @@ def main():
         # Save log
         df.to_csv("nids_log_streamlit.csv", index=False)
         st.success("Log saved to nids_log_streamlit.csv")
+        
+        st.markdown("---")  
+        st.markdown("""
+        ### 👨‍💻 Developed by: **Hamjathali I**  
+        """)
+
+        st.markdown(
+            """
+            <p style="font-size:20px;">💡 Idea: <i>AI-Driven Smart Intrusion Prevention</i></p>
+            <p style="font-size:20px;">🛠️ Tech Stack: Python, Scapy, TensorFlow, Streamlit</p>
+            """,
+            unsafe_allow_html=True
+        )
+
+
 
 if __name__ == "__main__":
     main()
