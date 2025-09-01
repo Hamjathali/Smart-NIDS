@@ -7,6 +7,17 @@ from tensorflow.keras.models import load_model
 from datetime import datetime
 import os
 
+import os
+from scapy.all import sniff, rdpcap
+
+def get_packets():
+    if os.environ.get("STREAMLIT_RUNTIME", ""):  # running on Streamlit Cloud
+        return rdpcap("sample.pcap")   # use pre-captured packets
+    else:
+        return sniff(count=10)         # use live sniffing locally
+
+
+
 # Load pre-trained model
 model = load_model("conv1d_model.h5")
 
@@ -72,7 +83,7 @@ def main():
     if mode == "Live Sniff (10 packets)":
         if st.button("Start Sniffing"):
             with st.spinner("Sniffing..."):
-                packets = sniff(count=10)
+                packets = get_packets()
                 st.success("Packet capture complete.")
     else:
         uploaded = st.file_uploader("Upload a .pcap file", type=["pcap"])
