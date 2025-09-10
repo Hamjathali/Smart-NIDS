@@ -20,10 +20,12 @@ def get_packets():
         # If sniff fails (Streamlit Cloud or no permission) → fallback
         
         if os.path.exists("sample.pcap"):
+            print("⚠️ Live sniffing is disabled in Streamlit Cloud for data privacy, so we are using real-time data packets that were saved earlier and stored on GitHub.")
             return rdpcap("sample.pcap")
         else:
-            
+            print("⚠️ Live sniffing not available and no sample.pcap found.")
             return []
+            
 
 # Load pre-trained model
 model = load_model("conv1d_model.h5")
@@ -127,10 +129,17 @@ def main():
         df.to_csv("nids_log_streamlit.csv", index=False)
         st.success("Log saved to nids_log_streamlit.csv")
         
-        st.markdown("---")  
-        st.markdown("""
-        ### 👨‍💻 Developed by: **Hamjathali I**  
-        """)
+        st.markdown("---")
+
+
+        st.markdown(
+            """
+            <p style="font-size:20px; margin-top:0;">
+                👨‍💻 Developed by: <b>Hamjathali I</b>
+            </p>
+            """,
+            unsafe_allow_html=True
+        )
 
         st.markdown(
             """
