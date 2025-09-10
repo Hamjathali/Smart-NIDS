@@ -20,10 +20,10 @@ def get_packets():
         # If sniff fails (Streamlit Cloud or no permission) → fallback
         
         if os.path.exists("sample.pcap"):
-            print("⚠️ Live sniffing is disabled in Streamlit Cloud for data privacy, so we are using real-time data packets that were saved earlier and stored on GitHub.")
+            st.warning("⚠️ Live sniffing is disabled in Streamlit Cloud for data privacy, so we are using real-time data packets that were saved earlier and stored on GitHub.")
             return rdpcap("sample.pcap")
         else:
-            print("⚠️ Live sniffing not available and no sample.pcap found.")
+            st.error("⚠️ Live sniffing not available and no real-time sample data packets are found.")
             return []
             
 
